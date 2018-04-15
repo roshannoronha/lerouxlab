@@ -57,6 +57,33 @@ for i in range(0, len(orgNames)):
 	cil_df[orgNames[i]] = ciliopathyValues.iloc[:,i]
 
 #for each gene get the "Total Ciliopathy Organisms", "Total Non Ciliopathy Organisms"
-cilGeneName_df = cil_df.set_index("Gene name")
-for i in range(0, len(orgNames)):
+cilGeneName_df = cil_df.set_index("Gene Name")
+
+cilDF_tco = []
+cilDF_ntco = []
+
+for i in cil_df["Gene Name"]:
+	tCO = 0
+	tNCO = 0
+	for j in cilGeneName_df.loc[i][orgNames]:
+		if j == "1":
+			tCO += 1
+		else:
+			tNCO += 1
+		
+		cilDF_tco.append(tCO)
+		cilDF_ntco.append(tNCO)
+
+print(len(cil_df))
+print(len(cilDF_tco))
+print(len(cilDF_ntco))
+#cil_df["Total Ciliopathy Organisms"] = cilDF_tco
+#cil_df["Total Non Ciliopathy Organisms"] = cilDF_ntco
+
+#print(cil_df)
+
+
+
+
+
 
