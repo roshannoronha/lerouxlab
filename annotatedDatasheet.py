@@ -31,11 +31,10 @@ for i in lr_df["Gene name"].values:
 #add gene names cil_df
 cil_df["Gene Name"] = sameNames
 
-#for each gene name in cil_db get the "Description", "Localisation", "Disease Association" and "Human ENSEMBL Id" from lr_df and add it to the appropriate cil_db column
-
-#set row index based on gene name to get all the info for that row based on the gene name
+#set row index based on gene name to get all the info for that row that contains that gene name
 lrGeneName_df = lr_df.set_index("Gene name")
 
+#get the info contained in the "Gene Name", "Description", "Localisation", "Disease Association" and "Human ENSEMBL Id" columns and store it in the appropriate cil_db column
 description = []
 localisation = []
 diseaseAsso = []
@@ -51,4 +50,13 @@ cil_df["Description"] = description
 cil_df["Localisation"] = localisation
 cil_df["Disease Association"] = diseaseAsso
 cil_df["Human ENSEMBL Id"] = humanEn
-print(cil_df)	
+
+#transfer organisms and ciliopathy values from hcg_df to cil_db
+ciliopathyValues = hcg_df.iloc[:, 12:]
+for i in range(0, len(orgNames)):
+	cil_df[orgNames[i]] = ciliopathyValues.iloc[:,i]
+
+#for each gene get the "Total Ciliopathy Organisms", "Total Non Ciliopathy Organisms"
+cilGeneName_df = cil_df.set_index("Gene name")
+for i in range(0, len(orgNames)):
+
